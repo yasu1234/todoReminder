@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">タスクTODOスケジューラー</string>
+    <string name="action_settings">登録</string>
+    <string name="task_edit">タスク登録・編集</string>
+</resources>
