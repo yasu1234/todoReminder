@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.kumaydevelop.todoreminder.R
-import com.kumaydevelop.todoreminder.Model.Task
 import com.kumaydevelop.todoreminder.Adapter.TaskAdapter
+import com.kumaydevelop.todoreminder.Model.Task
+import com.kumaydevelop.todoreminder.R
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         realm.close()
     }
 
+    // 5件までしか登録できないようにバリデーションチェックを行う
     fun maxRegistCheck() {
         realm = Realm.getDefaultInstance()
         val tasks = realm.where<Task>().findAll()
