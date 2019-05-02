@@ -8,6 +8,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
+import android.text.Spanned
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -29,12 +31,14 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
 
     private lateinit var realm : Realm
 
+    // 日時選択時の処理
     override fun onSelected(year: Int, month: Int, date: Int) {
         val cal = Calendar.getInstance()
         cal.set(year, month, date)
         dateText.setText(android.text.format.DateFormat.format("yyyy/MM/dd", cal))
     }
 
+    // 時間選択時の処理
     override fun onSelected(hourOfDay: Int, minutes: Int) {
         // 時間をHH:mm形式で表示させる
         timeText.setText("%1$02d:%2$02d".format(hourOfDay, minutes))
@@ -44,6 +48,12 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_edit)
         realm = Realm.getDefaultInstance()
+
+        // (必須)のみ赤文字にする
+        val timelimitHtml = "タスク期限<font color=red>(必須)</font><br>入力欄をタップして設定してください"
+        timeLimit.setText(toSpanned(timelimitHtml))
+        val titleHtml = "タスク名<font color=red>(必須)</font>"
+        titleName.setText(toSpanned(titleHtml))
 
         // カーソルを表示させず、年月日時の選択だけできるようにする
         dateText.isEnabled = true
@@ -201,5 +211,15 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         val intent = Intent(this, AlarmBroadCastReceiver::class.java)
         val pending = PendingIntent.getBroadcast(this, taskId.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         alarm.cancel(pending)
+    }
+
+    // HTMLのタグを適用する
+    fun toSpanned(html: String) : Spanned {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            @Suppress("DEPRECATION")
+            return Html.fromHtml(html)
+        }
     }
 }
