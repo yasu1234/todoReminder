@@ -7,9 +7,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.kumaydevelop.todoreminder.Model.Task
+import com.kumaydevelop.todoreminder.Util.DateUtil
 import io.realm.Realm
 import io.realm.kotlin.where
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,7 +32,7 @@ class RebootReceiver : BroadcastReceiver() {
             val df = SimpleDateFormat("yyyy/MM/dd")
             val dd = SimpleDateFormat("HH:mm")
             // タスク期限をyyyy/MM/dd HH:mm形式で取得する
-            val date = "${df.format(task.date)} ${dd.format(task.time)}".toDate()
+            val date = DateUtil.toDate("yyyy/MM/dd HH:mm","${df.format(task.date)} ${dd.format(task.time)}")
             val calendar = Calendar.getInstance()
             calendar.time = date
             val pending = PendingIntent.getBroadcast(context, task.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -50,23 +50,4 @@ class RebootReceiver : BroadcastReceiver() {
             }
         }
     }
-
-    // 日付形式に変更する
-    fun String.toDate(pattern: String = "yyyy/MM/dd HH:mm"): Date? {
-        val sdFormat = try {
-            SimpleDateFormat(pattern)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
-        val date = sdFormat?.let {
-            try {
-                it.parse(this)
-            } catch (e: ParseException) {
-                null
-            }
-        }
-        return date
-    }
-
-
 }

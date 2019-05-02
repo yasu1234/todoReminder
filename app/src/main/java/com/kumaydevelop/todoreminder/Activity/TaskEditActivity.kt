@@ -11,19 +11,18 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.kumaydevelop.todoreminder.*
 import com.kumaydevelop.todoreminder.Fragment.DateFragment
 import com.kumaydevelop.todoreminder.Fragment.TimeFragment
 import com.kumaydevelop.todoreminder.Model.Task
+import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.Receiver.AlarmBroadCastReceiver
+import com.kumaydevelop.todoreminder.Util.DateUtil
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_task_edit.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn, TimeFragment.onTimeSelectListner {
@@ -85,10 +84,10 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                         // 登録のときのIdは+1した状態にする
                         nextId = (maxId?.toLong() ?: 0L) + 1
                         val task = realm.createObject<Task>(nextId)
-                        dateText.text.toString().toDate("yyyy/MM/dd")?.let {
+                        DateUtil.toDate("yyyy/MM/dd",dateText.text.toString())?.let {
                             task.date = it
                         }
-                        timeText.text.toString().toDate("HH:mm")?.let {
+                        DateUtil.toDate("HH:mm",timeText.text.toString())?.let {
                             task.time = it
                         }
                         task.title = titleEdit.text.toString()
@@ -98,7 +97,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                     alert("タスクを追加しました") {
                         yesButton { finish() }
                     }.show()
-                    val date = "${dateText.text} ${timeText.text}".toDate()
+                    val date = DateUtil.toDate("yyyy/MM/dd HH:mm", "${dateText.text} ${timeText.text}")
                     val calender = Calendar.getInstance()
                     calender.time = date
                     // 設定した時間にアラームが作動するようにする
@@ -108,12 +107,12 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                     realm.executeTransaction {
                         val task = realm.where<Task>().equalTo("id", taskId).findFirst()
                         // 年月日を登録する
-                        dateText.text.toString().toDate("yyyy/MM/dd")?.let {
+                        DateUtil.toDate("yyyy/MM/dd",dateText.text.toString())?.let {
                             task?.date = it
                         }
 
                         // 時間を登録する
-                        timeText.text.toString().toDate("HH:mm")?.let {
+                        DateUtil.toDate("HH:mm",timeText.text.toString())?.let {
                             task?.time = it
                         }
                         task?.title = titleEdit.text.toString()
@@ -124,7 +123,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                         yesButton { finish() }
                     }.show()
                     // 選択した年月日と時間をまとめる
-                    val date = "${dateText.text} ${timeText.text}".toDate()
+                    val date = DateUtil.toDate("yyyy/MM/dd HH:mm", "${dateText.text} ${timeText.text}")
                     val calender = Calendar.getInstance()
                     calender.time = date
                     // 設定した時間にアラームが作動するようにする
@@ -181,24 +180,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         super.onDestroy()
         realm.close()
     }
-
-    fun String.toDate(pattern: String = "yyyy/MM/dd HH:mm"): Date? {
-        val sdFormat = try {
-            SimpleDateFormat(pattern)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
-        val date = sdFormat?.let {
-            try {
-                it.parse(this)
-            } catch (e: ParseException) {
-                null
-            }
-        }
-        return date
-    }
-
-
+    
     // アラームをセットする
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setAlarmManager(calendar: Calendar, taskId: Long, title: String) {
