@@ -3,14 +3,19 @@ package com.kumaydevelop.todoreminder.Receiver
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
+import com.kumaydevelop.todoreminder.Activity.MainActivity
 import com.kumaydevelop.todoreminder.R
 import io.realm.Realm
 
+/**
+ * 通知を受け取り表示するクラス
+ */
 class AlarmBroadCastReceiver : BroadcastReceiver() {
 
     private lateinit var realm: Realm
@@ -45,11 +50,15 @@ class AlarmBroadCastReceiver : BroadcastReceiver() {
         val title = intent?.getStringExtra("title")
         val builder = NotificationCompat.Builder(context!!, "new scheduler")
 
+        // 通知をタップしたときに一覧画面に遷移するようにする
+        val pending = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), 0)
+
         val notification = builder.setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("時間になりました。タスクが完了したら削除してください")
                 .setContentText(title)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setContentIntent(pending)
                 .build()
 
         val taskId = intent?.getLongExtra("task_id", -1L)
