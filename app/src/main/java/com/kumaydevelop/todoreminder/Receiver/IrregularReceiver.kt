@@ -13,7 +13,7 @@ import io.realm.kotlin.where
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RebootReceiver : BroadcastReceiver() {
+class IrregularReceiver : BroadcastReceiver() {
 
     private lateinit var realm : Realm
 

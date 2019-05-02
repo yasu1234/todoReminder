@@ -27,10 +27,12 @@ class MainActivity : AppCompatActivity() {
         val tasks = realm.where<Task>().findAll()
         listView.adapter = TaskAdapter(tasks)
 
+        // ⊕ボタンを押下したときの処理
         fab.setOnClickListener { view ->
             maxRegistCheck()
         }
 
+        // 一覧のデータを押下したときの処理
         listView.setOnItemClickListener { parent, view, position, id ->
             val task = parent.getItemAtPosition(position) as Task
             startActivity<TaskEditActivity>(
@@ -46,14 +48,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // 登録を押下したときの処理
         return when (item.itemId) {
             R.id.action_settings -> {
                 maxRegistCheck()
                 true
             }
+            // タスク登録・編集画面に遷移
             else -> super.onOptionsItemSelected(item)
         }
     }

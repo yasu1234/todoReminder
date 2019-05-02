@@ -164,7 +164,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
             dialog.show(supportFragmentManager,"time_dialog")
         }
 
-        // フォーカスが外れたときキーボードを非表示にする
+        // フォーカスが外れたときキーボードを非表示にする(詳細)
         detailEdit.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -172,7 +172,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
             }
         }
 
-        // フォーカスが外れたときキーボードを非表示にする
+        // フォーカスが外れたときキーボードを非表示にする(タスク名)
         titleEdit.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
