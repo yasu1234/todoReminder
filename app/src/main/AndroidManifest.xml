@@ -30,8 +30,6 @@
         <receiver android:name = ".Receiver.IrregularReceiver" android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
-                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
     </application>
