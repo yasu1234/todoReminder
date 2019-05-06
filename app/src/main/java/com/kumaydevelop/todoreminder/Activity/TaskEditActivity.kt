@@ -142,6 +142,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
             }
         }
 
+        // 削除ボタンを押下したときの処理
         delete.setOnClickListener {
             realm.executeTransaction {
                 realm.where<Task>().equalTo("id", taskId)?.findFirst()?.deleteFromRealm()
