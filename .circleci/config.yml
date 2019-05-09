@@ -9,7 +9,7 @@ aliases:
         key: &jars_key jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
     - run: &download_deps
         name: Download dependencies
-        command: ./gradlew androidDependencies
+        command: sudo chmod +x ./gradlew
     - save_cache: &save_cache
         paths:
           - ~/.gradle
