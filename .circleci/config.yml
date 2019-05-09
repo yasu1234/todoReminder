@@ -27,7 +27,7 @@ aliases:
           TIME=$(date "+%Y/%m/%d %H:%M")
           COMMIT_HASH=$(git log --format="%H" -n 1 | cut -c 1-8)
           USERNAME=nekonenene
-          curl -F "file=@${APK_PATH}" -F "token=${DEPLOY_GATE_API_KEY}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/kumay/apps
+          curl -F "file=@app/build/outputs/apk/debug/app-debug.apk" -F "token=${DEPLOY_GATE_API_KEY}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/kumay/apps
 
 version: 2
 jobs:
