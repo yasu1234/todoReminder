@@ -13,11 +13,16 @@ import android.text.Spanned
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.kumaydevelop.todoreminder.Fragment.DateFragment
 import com.kumaydevelop.todoreminder.Fragment.TimeFragment
 import com.kumaydevelop.todoreminder.Model.Task
+import com.kumaydevelop.todoreminder.NotificationTime
 import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.Receiver.AlarmBroadCastReceiver
+import com.kumaydevelop.todoreminder.Util.CalenderUtil
 import com.kumaydevelop.todoreminder.Util.DateUtil
 import io.realm.Realm
 import io.realm.kotlin.createObject
@@ -30,6 +35,11 @@ import java.util.*
 class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn, TimeFragment.onTimeSelectListner {
 
     private lateinit var realm : Realm
+
+    // spinnerの初期値
+    var item : String = NotificationTime.UNSETTING.time
+
+    var selectedCode : Int = 0
 
     // 日時選択時の処理
     override fun onSelected(year: Int, month: Int, date: Int) {
@@ -48,6 +58,8 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_edit)
         realm = Realm.getDefaultInstance()
+
+        initSpinner()
 
         // (必須)のみ赤文字にする
         val timelimitHtml = "タスク期限<font color=red>(必須)</font><br>入力欄をタップして設定してください"
@@ -73,6 +85,8 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
             timeText.setText(android.text.format.DateFormat.format("HH:mm", task?.time))
             titleEdit.setText(task?.title)
             detailEdit.setText(task?.detail)
+            val notifyCode = NotificationTime.values().filter { it.code == task?.notifyTime }.first()
+            spinner.setSelection(notifyCode.code)
             delete.visibility = View.VISIBLE
         } else {
             delete.visibility = View.INVISIBLE
@@ -100,18 +114,20 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                         DateUtil.toDate("HH:mm",timeText.text.toString())?.let {
                             task.time = it
                         }
+                        val notifyCode = NotificationTime.values().filter { it.time == item }.first()
+                        selectedCode = notifyCode.code
                         task.title = titleEdit.text.toString()
                         task.detail = detailEdit.text.toString()
+                        task.notifyTime = selectedCode
                     }
 
                     alert("タスクを追加しました") {
                         yesButton { finish() }
                     }.show()
                     val date = DateUtil.toDate("yyyy/MM/dd HH:mm", "${dateText.text} ${timeText.text}")
-                    val calender = Calendar.getInstance()
-                    calender.time = date
+                    val calendar = CalenderUtil.adjustNotifyTime(selectedCode, date!!)
                     // 設定した時間にアラームが作動するようにする
-                    setAlarmManager(calender, nextId, titleEdit.text.toString())
+                    setAlarmManager(calendar, nextId, titleEdit.text.toString())
                 }
                 else -> {
                     realm.executeTransaction {
@@ -125,8 +141,12 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                         DateUtil.toDate("HH:mm",timeText.text.toString())?.let {
                             task?.time = it
                         }
+                        val notifyCode = NotificationTime.values().filter { it.time == item }.first()
+                        selectedCode = notifyCode.code
                         task?.title = titleEdit.text.toString()
+
                         task?.detail = detailEdit.text.toString()
+                        task?.notifyTime = selectedCode
                     }
 
                     alert("タスクを更新しました") {
@@ -134,10 +154,9 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                     }.show()
                     // 選択した年月日と時間をまとめる
                     val date = DateUtil.toDate("yyyy/MM/dd HH:mm", "${dateText.text} ${timeText.text}")
-                    val calender = Calendar.getInstance()
-                    calender.time = date
+                    val calendar = CalenderUtil.adjustNotifyTime(selectedCode, date!!)
                     // 設定した時間にアラームが作動するようにする
-                    setAlarmManager(calender, taskId!!, titleEdit.text.toString())
+                    setAlarmManager(calendar, taskId!!, titleEdit.text.toString())
                 }
             }
         }
@@ -221,6 +240,38 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         } else {
             @Suppress("DEPRECATION")
             return Html.fromHtml(html)
+        }
+    }
+
+    // spinner作成
+    fun initSpinner() {
+        var selectedOption = arrayListOf<String>()
+
+        // 選択肢の作成
+        NotificationTime.values().map {
+            selectedOption.add(it.time)
+        }
+
+        val adapter = ArrayAdapter(applicationContext,
+                android.R.layout.simple_spinner_item, selectedOption)
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinner.adapter = adapter
+
+        // リスナーを登録
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            // アイテムが選択された時
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // spinnerを取得
+                val spinnerParent = parent as Spinner
+                item = spinnerParent.selectedItem as String
+
+            }
+
+            // アイテムが選択されなかった
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
     }
 }
