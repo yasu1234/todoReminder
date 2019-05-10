@@ -11,5 +11,5 @@ open class Task: RealmObject() {
     var detail: String = ""
     var date : Date = Date()
     var time : Date = Date()
-    var deleteFlg : Int = 0
+    var notifyTime : Int = 0
 }
