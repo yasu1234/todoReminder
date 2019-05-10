@@ -78,7 +78,7 @@
     <EditText
         android:id="@+id/detailEdit"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -127,23 +127,23 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="355dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeText" />
+        app:layout_constraintTop_toBottomOf="@+id/notifyTime" />
 
     <TextView
         android:id="@+id/notifyTime"
-        android:layout_width="96dp"
-        android:layout_height="27dp"
+        android:layout_width="279dp"
+        android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="通知時間"
+        android:text="通知時間(下の選択肢から選んでください)"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
