@@ -54,7 +54,7 @@ class AlarmBroadCastReceiver : BroadcastReceiver() {
         val pending = PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), 0)
 
         val notification = builder.setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("時間になりました。タスクが完了したら削除してください")
+                .setContentTitle("設定した時間になりました。タスクが完了したら削除してください")
                 .setContentText(title)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
