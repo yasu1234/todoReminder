@@ -122,7 +122,11 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                     }
 
                     alert("タスクを追加しました") {
-                        yesButton { finish() }
+                        yesButton {
+                            val intent = Intent(applicationContext, MainActivity::class.java)
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                        }
                     }.show()
                     val date = DateUtil.toDate("yyyy/MM/dd HH:mm", "${dateText.text} ${timeText.text}")
                     val calendar = CalenderUtil.adjustNotifyTime(selectedCode, date!!)
@@ -150,7 +154,11 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                     }
 
                     alert("タスクを更新しました") {
-                        yesButton { finish() }
+                        yesButton {
+                            val intent = Intent(applicationContext, MainActivity::class.java)
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                        }
                     }.show()
                     // 選択した年月日と時間をまとめる
                     val date = DateUtil.toDate("yyyy/MM/dd HH:mm", "${dateText.text} ${timeText.text}")
@@ -167,7 +175,11 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                 realm.where<Task>().equalTo("id", taskId)?.findFirst()?.deleteFromRealm()
             }
             alert("タスクを削除しました") {
-                yesButton { finish() }
+                yesButton {
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                }
             }.show()
             deleteAlarmManager(taskId!!)
         }
