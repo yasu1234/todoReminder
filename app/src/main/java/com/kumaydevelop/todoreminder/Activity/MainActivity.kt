@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val binding : ActivityMainBinding
-        
+
         // MainActivityをDataBinding化する
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val listAdapter = TaskAdapter(applicationContext)
