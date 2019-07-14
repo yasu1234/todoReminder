@@ -1,44 +1,47 @@
 package com.kumaydevelop.todoreminder.Adapter
 
-import android.text.format.DateFormat
+import android.content.Context
+import android.databinding.DataBindingUtil
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.kumaydevelop.todoreminder.Model.Task
-import io.realm.OrderedRealmCollection
-import io.realm.RealmBaseAdapter
+import android.widget.BaseAdapter
+import com.kumaydevelop.todoreminder.Model.TaskDetail
+import com.kumaydevelop.todoreminder.R
+import com.kumaydevelop.todoreminder.databinding.TaskItemBinding
 
-class TaskAdapter(data: OrderedRealmCollection<Task>?) : RealmBaseAdapter<Task>(data) {
+class TaskAdapter(val context: Context) : BaseAdapter() {
+    private val inflater: LayoutInflater
+            = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    inner class ViewHolder(cell: View) {
-        val date = cell.findViewById<TextView>(android.R.id.text1)
-        val title = cell.findViewById<TextView>(android.R.id.text2)
+    var tasks: List<TaskDetail> = emptyList()
+
+    override fun getCount(): Int {
+        return tasks.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItem(position: Int): Any {
+        return tasks[position]
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view : View
-        val viewHolder : ViewHolder
+        var binding: TaskItemBinding?
 
-        when (convertView) {
-            null -> {
-                val inflater = LayoutInflater.from(parent?.context)
-                view = inflater.inflate(android.R.layout.simple_expandable_list_item_2, parent, false)
-                viewHolder = ViewHolder(view)
-                view.tag = viewHolder
-            }
-            else -> {
-                view = convertView
-                viewHolder = view.tag as ViewHolder
-            }
+        if (convertView == null) {
+            // カスタム作成したtask_item.xmlを使う
+            binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.task_item,parent,false)
+            binding.root.tag = binding
+        } else {
+            // 今まで使っていたものを使いまわす
+            binding = convertView.tag as TaskItemBinding
         }
 
-        adapterData?.run {
-            val schedule = get(position)
-            // 年月日と時間を表示する
-            viewHolder.date.setText(DateFormat.format("yyyy/MM/dd", schedule.date).toString() + "  " + DateFormat.format("HH:mm", schedule.time).toString())
-            viewHolder.title.text = schedule.title
-        }
-        return view
+        binding!!.taskDetail = getItem(position) as TaskDetail
+        // root化してviewを返す
+        return binding.root
     }
 }
