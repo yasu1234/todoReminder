@@ -11,8 +11,6 @@ import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.databinding.TaskItemBinding
 
 class TaskAdapter(val context: Context) : BaseAdapter() {
-    private val inflater: LayoutInflater
-            = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     var tasks: List<TaskDetail> = emptyList()
 
