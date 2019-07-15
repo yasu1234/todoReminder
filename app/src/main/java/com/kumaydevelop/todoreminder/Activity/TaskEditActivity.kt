@@ -95,7 +95,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         save.setOnClickListener {
             // 必須項目入力チェック
             if (dateText.text.toString() == "" || titleEdit.text.toString() == "" || timeText.text.toString() == "") {
-                alert("タスク期限とタスク名は入力必須です") {
+                alert("タスク名とタスク期限は入力必須です") {
                     yesButton {  }
                 }.show()
                 return@setOnClickListener
