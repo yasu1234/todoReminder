@@ -9,9 +9,9 @@ android {
     defaultConfig {
         applicationId "com.kumaydevelop.todoreminder"
         minSdkVersion 22
-        targetSdkVersion 27
-        versionCode 11
-        versionName "1.0.2"
+        targetSdkVersion
+        versionCode 14
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
