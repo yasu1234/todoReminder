@@ -1,4 +1,4 @@
-## ブログリーダー
+## タスクTODOスケジューラー
 ___
 
 アプリのダウンロードは[こちら](https://play.google.com/store/apps/details?id=com.kumaydevelop.todoreminder)から
@@ -20,7 +20,7 @@ Realm 2.1.1
 
 #### 画面イメージ
 
-①タスク名・詳細・期限・通知次官を登録できる。  
+①タスク名・詳細・期限・通知時間を登録できる。  
   一覧のセルを押すと詳細を表示し、更新・削除ができる。  
 
 ![todo1](https://user-images.githubusercontent.com/20049397/61213995-a4bbe180-a741-11e9-9ffc-588079a9f5c5.gif)
