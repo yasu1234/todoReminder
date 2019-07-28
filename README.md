@@ -14,9 +14,10 @@ Realm 2.1.1
 *データの登録・更新・削除*  
 *AlarmManagerを使ったアラーム機能(再起動やアプリ更新も考慮)*  
 *NotificationManagerを使った通知機能*  
+*MVVMパターンを使用*  
 *listViewとDataBindingの組み合わせ*  
 *CircleCIとDeployGateを使った自動化*  
-*Junit4とEspresso3.0.2(UIテスト)を使った単体テスト*  
+*Junit4とEspresso3.0.2(UIテスト)を使った単体テスト* 
 
 #### 画面イメージ
 
