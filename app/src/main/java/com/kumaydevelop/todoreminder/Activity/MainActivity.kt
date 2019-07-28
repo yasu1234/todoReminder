@@ -3,13 +3,12 @@ package com.kumaydevelop.todoreminder.Activity
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.format.DateFormat
 import android.view.Menu
 import android.view.MenuItem
 import com.kumaydevelop.todoreminder.Adapter.TaskAdapter
 import com.kumaydevelop.todoreminder.Model.Task
-import com.kumaydevelop.todoreminder.Model.TaskDetail
 import com.kumaydevelop.todoreminder.R
+import com.kumaydevelop.todoreminder.ViewModel.ListViewModel
 import com.kumaydevelop.todoreminder.databinding.ActivityMainBinding
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -26,20 +25,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
+        realm = Realm.getDefaultInstance()
         val binding : ActivityMainBinding
 
         // MainActivityをDataBinding化する
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val listAdapter = TaskAdapter(applicationContext)
-        realm = Realm.getDefaultInstance()
-        val tasks = realm.where<Task>().findAll().sort("id")
-        val taskList = mutableListOf<TaskDetail>()
-
-        // タスク一覧に表示するタイトルと期限をリスト化し、listviewに適用させる
-        tasks.forEach { taskList.add(TaskDetail(it.title,
-                DateFormat.format("yyyy/MM/dd", it.date).toString() + "  " + DateFormat.format("HH:mm", it.time).toString(), it.id)) }
-        listAdapter.tasks = taskList
+        val listViewModel = ListViewModel()
+        // ViewModelでデータを取得するロジックを記載
+        val taskList = listViewModel.loadData()
+        val listAdapter = TaskAdapter(applicationContext, taskList)
         binding.listview.adapter = listAdapter
 
         // ⊕ボタンを押下したときの処理
@@ -49,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         // 一覧のデータを押下したときの処理
         binding.setOnItemClick { parent, view, position, id ->
-            val task = realm.where<Task>().equalTo("id", listAdapter.tasks[position].id).findFirst()
+            val task = realm.where<Task>().equalTo("id", listAdapter.listDatas[position].id).findFirst()
             startActivity<TaskEditActivity>(
                     "task_id" to task!!.id
             )
