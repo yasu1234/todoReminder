@@ -1,21 +1,17 @@
 package com.kumaydevelop.todoreminder.Adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.kumaydevelop.todoreminder.Model.TaskDetail
-import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.databinding.TaskItemBinding
 
-class TaskAdapter(val context: Context) : BaseAdapter() {
-
-    var tasks: List<TaskDetail> = emptyList()
+class TaskAdapter(val context: Context, var listDatas: List<TaskDetail>) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return tasks.size
+        return listDatas.size
     }
 
     override fun getItemId(position: Int): Long {
@@ -23,23 +19,21 @@ class TaskAdapter(val context: Context) : BaseAdapter() {
     }
 
     override fun getItem(position: Int): Any {
-        return tasks[position]
+        return listDatas[position]
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var binding: TaskItemBinding?
 
         if (convertView == null) {
-            // カスタム作成したtask_item.xmlを使う
-            binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.task_item,parent,false)
-            binding.root.tag = binding
+            binding = TaskItemBinding.inflate(LayoutInflater.from(context), parent,false)
         } else {
             // 今まで使っていたものを使いまわす
             binding = convertView.tag as TaskItemBinding
         }
 
-        binding!!.taskDetail = getItem(position) as TaskDetail
+        binding!!.taskDetail = listDatas[position]
         // root化してviewを返す
-        return binding.root
+        return binding!!.root
     }
 }
