@@ -1,4 +1,4 @@
-package com.kumaydevelop.todoreminder.Model
+package com.kumaydevelop.todoreminder.model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

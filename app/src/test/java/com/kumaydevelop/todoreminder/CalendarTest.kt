@@ -13,7 +13,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal001() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(0,date)
@@ -29,7 +29,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal002() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(1,date)
@@ -45,7 +45,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal003() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(2,date)
@@ -61,7 +61,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal004() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(3,date)
@@ -77,7 +77,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal005() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:33"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(4,date)
@@ -93,7 +93,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal006() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(5,date)
@@ -109,7 +109,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal007() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 00:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(5,date)
@@ -125,7 +125,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal008() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(4,date)
@@ -141,7 +141,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_Normal009() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/01 00:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(5,date)
@@ -157,7 +157,7 @@ class CalendarTest {
      */
     @Test
     fun DateUtilTest_AbNormal001() {
-        var calendarUtil = CalenderUtil
+        val calendarUtil = CalenderUtil
         val strDate = "2019/05/08 01:23"
         val date = SimpleDateFormat("yyyy/MM/dd HH:mm").parse(strDate)
         val calendar = calendarUtil.adjustNotifyTime(6,date)

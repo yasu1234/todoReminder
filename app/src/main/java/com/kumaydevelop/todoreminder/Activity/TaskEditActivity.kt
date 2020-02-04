@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.text.Html
 import android.text.Spanned
 import android.view.MotionEvent
@@ -18,7 +18,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.kumaydevelop.todoreminder.Fragment.DateFragment
 import com.kumaydevelop.todoreminder.Fragment.TimeFragment
-import com.kumaydevelop.todoreminder.Model.Task
+import com.kumaydevelop.todoreminder.model.Task
 import com.kumaydevelop.todoreminder.NotificationTime
 import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.Receiver.AlarmBroadCastReceiver
@@ -257,7 +257,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
 
     // spinner作成
     fun initSpinner() {
-        var selectedOption = arrayListOf<String>()
+        val selectedOption = arrayListOf<String>()
 
         // 選択肢の作成
         NotificationTime.values().map {

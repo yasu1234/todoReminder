@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.kumaydevelop.todoreminder.Model.TaskDetail
+import com.kumaydevelop.todoreminder.model.TaskDetail
 import com.kumaydevelop.todoreminder.databinding.TaskItemBinding
 
 class TaskAdapter(val context: Context, var listDatas: List<TaskDetail>) : BaseAdapter() {
@@ -23,7 +23,7 @@ class TaskAdapter(val context: Context, var listDatas: List<TaskDetail>) : BaseA
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var binding: TaskItemBinding?
+        val binding: TaskItemBinding?
 
         if (convertView == null) {
             binding = TaskItemBinding.inflate(LayoutInflater.from(context), parent,false)

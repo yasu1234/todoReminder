@@ -1,9 +1,9 @@
 package com.kumaydevelop.todoreminder.ViewModel
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import android.text.format.DateFormat
-import com.kumaydevelop.todoreminder.Model.Task
-import com.kumaydevelop.todoreminder.Model.TaskDetail
+import com.kumaydevelop.todoreminder.model.Task
+import com.kumaydevelop.todoreminder.model.TaskDetail
 import io.realm.Realm
 import io.realm.kotlin.where
 

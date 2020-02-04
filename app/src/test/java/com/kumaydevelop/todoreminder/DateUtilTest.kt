@@ -11,7 +11,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_Normal001() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd HH:mm","2019/12/20 11:11")
         Assert.assertEquals(date.toString(), "Fri Dec 20 11:11:00 JST 2019")
     }
@@ -21,7 +21,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_Normal002() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd HH:mm","2019/12/20 11:12")
         Assert.assertNotEquals(date.toString(), "Fri Dec 20 11:11:00 JST 2019")
     }
@@ -31,7 +31,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_Normal003() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd","2019/12/20")
         Assert.assertEquals(date.toString(), "Fri Dec 20 00:00:00 JST 2019")
     }
@@ -41,7 +41,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_Normal004() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd","2019/12/20")
         Assert.assertNotEquals(date.toString(), "Fri Dec 19 00:00:00 JST 2019")
     }
@@ -51,7 +51,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_Normal005() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd","2019/12/20")
         Assert.assertNotEquals(date.toString(), "Fri Dec 19 00:00:00 JST 2020")
     }
@@ -61,7 +61,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_Normal006() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd","2019/11/20")
         Assert.assertNotEquals(date.toString(), "Fri Dec 19 00:00:00 JST 2020")
     }
@@ -71,7 +71,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_AbNormal001() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd HH:mm","2019/12/20")
         Assert.assertNull(date)
     }
@@ -81,7 +81,7 @@ class DateUtilTest {
      */
     @Test
     fun DateUtilTest_AbNormal006() {
-        var dateUtil = DateUtil
+        val dateUtil = DateUtil
         val date = dateUtil.toDate( "yyyy/MM/dd HH:mm","11:12")
         Assert.assertNull(date)
     }

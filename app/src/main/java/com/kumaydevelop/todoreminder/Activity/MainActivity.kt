@@ -1,12 +1,12 @@
 package com.kumaydevelop.todoreminder.Activity
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.kumaydevelop.todoreminder.Adapter.TaskAdapter
-import com.kumaydevelop.todoreminder.Model.Task
+import com.kumaydevelop.todoreminder.model.Task
 import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.ViewModel.ListViewModel
 import com.kumaydevelop.todoreminder.databinding.ActivityMainBinding

@@ -3,7 +3,7 @@ package com.kumaydevelop.todoreminder.Fragment
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.os.Bundle
 import android.widget.DatePicker
 import java.util.*
@@ -38,7 +38,7 @@ class DateFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
         val month = cal.get(Calendar.MONTH)
         val date = cal.get(Calendar.DAY_OF_MONTH)
 
-        return DatePickerDialog(activity, this, year, month, date)
+        return DatePickerDialog(activity!!, this, year, month, date)
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
