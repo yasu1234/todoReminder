@@ -1,7 +1,7 @@
 aliases:
   android_docker: &android_docker
     docker:
-      - image: circleci/android:api-28
+      - image: circleci/android:api-27
         environment:
           TZ: Asia/Tokyo
   steps:

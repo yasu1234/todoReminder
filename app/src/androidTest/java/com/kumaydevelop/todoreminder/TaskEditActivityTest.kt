@@ -1,13 +1,14 @@
 package com.kumaydevelop.todoreminder
 
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.action.ViewActions.replaceText
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.RootMatchers.*
+import androidx.test.rule.ActivityTestRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kumaydevelop.todoreminder.Activity.TaskEditActivity
 import org.hamcrest.Matchers
 import org.junit.Rule
@@ -40,7 +41,7 @@ class TaskEditActivityTest {
         onView(withId(R.id.dateText)).perform(replaceText ("2019/04/20"))
         onView(withId(R.id.dateText)).perform(replaceText ("20:30"))
         onView(withId(R.id.save)).perform(click())
-        onView(withText("タスク期限とタスク名は入力必須です")).check(matches(isDisplayed()));
+        onView(withText("タスク名とタスク期限は入力必須です")).inRoot(isDialog()).check(matches(isDisplayed()));
     }
 
     /**
@@ -53,6 +54,6 @@ class TaskEditActivityTest {
         onView(withId(R.id.dateText)).perform(replaceText (""))
         onView(withId(R.id.dateText)).perform(replaceText (""))
         onView(withId(R.id.save)).perform(click())
-        onView(withText("タスク期限とタスク名は入力必須です")).check(matches(isDisplayed()));
+        onView(withText("タスク名とタスク期限は入力必須です")).inRoot(isDialog()).check(matches(isDisplayed()));
     }
 }

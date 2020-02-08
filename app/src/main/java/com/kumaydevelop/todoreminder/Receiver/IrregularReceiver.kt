@@ -6,7 +6,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.kumaydevelop.todoreminder.Model.Task
+import com.kumaydevelop.todoreminder.model.Task
 import com.kumaydevelop.todoreminder.Util.DateUtil
 import io.realm.Realm
 import io.realm.kotlin.where

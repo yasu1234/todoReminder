@@ -6,7 +6,7 @@
     <data>
         <variable
             name="taskDetail"
-            type="com.kumaydevelop.todoreminder.Model.TaskDetail" />
+            type="com.kumaydevelop.todoreminder.model.TaskDetail" />
     </data>
 
     <LinearLayout

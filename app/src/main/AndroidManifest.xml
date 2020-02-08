@@ -3,6 +3,7 @@
     package="com.kumaydevelop.todoreminder" android:installLocation="internalOnly">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<!--    <uses-permission android:name="android.permission.RECORD_AUDIO" />-->
 
     <application
         android:name=".Application.TaskSchedulerApplication"
@@ -41,5 +42,7 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
     </application>
 </manifest>
