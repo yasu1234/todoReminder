@@ -11,8 +11,7 @@ class ListViewModel: ViewModel() {
 
     private lateinit var realm: Realm
 
-    fun loadData(): List<TaskDetail> {
-        realm = Realm.getDefaultInstance()
+    fun loadData(realm: Realm): List<TaskDetail> {
         val tasks = realm.where<Task>().findAll().sort("id")
         val taskList = mutableListOf<TaskDetail>()
 

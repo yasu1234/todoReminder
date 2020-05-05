@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val listViewModel = ListViewModel()
         // ViewModelでデータを取得するロジックを記載
-        val taskList = listViewModel.loadData()
+        val taskList = listViewModel.loadData(realm)
         val listAdapter = TaskAdapter(applicationContext, taskList)
         binding.listview.adapter = listAdapter
 
