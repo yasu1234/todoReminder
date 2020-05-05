@@ -14,8 +14,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
+import com.kumaydevelop.todoreminder.ViewModel.EditViewModel
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.kumaydevelop.todoreminder.Fragment.DateFragment
 import com.kumaydevelop.todoreminder.Fragment.TimeFragment
 import com.kumaydevelop.todoreminder.model.Task
@@ -59,13 +62,15 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         setContentView(R.layout.activity_task_edit)
         realm = Realm.getDefaultInstance()
 
+        val editViewModel = ViewModelProviders.of(this).get(EditViewModel::class.java)
+
         initSpinner()
 
         // (必須)のみ赤文字にする
         val timelimitHtml = "タスク期限<font color=red>(必須)</font><br>入力欄をタップして設定してください"
-        timeLimit.setText(toSpanned(timelimitHtml))
+        timeLimit.setText(editViewModel.toSpanned(timelimitHtml))
         val titleHtml = "タスク名<font color=red>(必須)</font>"
-        titleName.setText(toSpanned(titleHtml))
+        titleName.setText(editViewModel.toSpanned(titleHtml))
 
         // カーソルを表示させず、年月日時の選択だけできるようにする
         dateText.isEnabled = true
@@ -79,8 +84,8 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
 
         val taskId = intent?.getLongExtra("task_id", -1L)
         // タスク更新の場合
-        if (taskId != -1L) {
-            val task = realm.where<Task>().equalTo("id", taskId).findFirst()
+        if (taskId != null && taskId != -1L) {
+            val task = editViewModel.getPresentTask(taskId, realm)
             dateText.setText(android.text.format.DateFormat.format("yyyy/MM/dd", task?.date))
             timeText.setText(android.text.format.DateFormat.format("HH:mm", task?.time))
             titleEdit.setText(task?.title)
@@ -104,10 +109,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
             // 新規登録の場合
                 -1L -> {
                     realm.executeTransaction {
-                        val maxId = realm.where<Task>().max("id")
-                        // 登録のときのIdは+1した状態にする
-                        nextId = (maxId?.toLong() ?: 0L) + 1
-                        val task = realm.createObject<Task>(nextId)
+                        val task = editViewModel.createTask(it)!!
                         DateUtil.toDate("yyyy/MM/dd",dateText.text.toString())?.let {
                             task.date = it
                         }
@@ -135,7 +137,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
                 }
                 else -> {
                     realm.executeTransaction {
-                        val task = realm.where<Task>().equalTo("id", taskId).findFirst()
+                        val task = editViewModel.getPresentTask(taskId!!, realm)
                         // 年月日を登録する
                         DateUtil.toDate("yyyy/MM/dd",dateText.text.toString())?.let {
                             task?.date = it
@@ -172,7 +174,7 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         // 削除ボタンを押下したときの処理
         delete.setOnClickListener {
             realm.executeTransaction {
-                realm.where<Task>().equalTo("id", taskId)?.findFirst()?.deleteFromRealm()
+                editViewModel.deleteTask(taskId!!, realm)
             }
             alert("タスクを削除しました") {
                 yesButton {
@@ -243,16 +245,6 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         val intent = Intent(this, AlarmBroadCastReceiver::class.java)
         val pending = PendingIntent.getBroadcast(this, taskId.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         alarm.cancel(pending)
-    }
-
-    // HTMLのタグを適用する
-    fun toSpanned(html: String) : Spanned {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            @Suppress("DEPRECATION")
-            return Html.fromHtml(html)
-        }
     }
 
     // spinner作成
