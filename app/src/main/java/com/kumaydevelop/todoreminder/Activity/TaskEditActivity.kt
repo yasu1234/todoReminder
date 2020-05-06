@@ -8,8 +8,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Html
-import android.text.Spanned
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -17,19 +15,17 @@ import android.widget.AdapterView
 import com.kumaydevelop.todoreminder.ViewModel.EditViewModel
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.lifecycle.ViewModelProvider
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.kumaydevelop.todoreminder.Fragment.DateFragment
 import com.kumaydevelop.todoreminder.Fragment.TimeFragment
-import com.kumaydevelop.todoreminder.model.Task
 import com.kumaydevelop.todoreminder.NotificationTime
 import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.Receiver.AlarmBroadCastReceiver
 import com.kumaydevelop.todoreminder.Util.CalenderUtil
 import com.kumaydevelop.todoreminder.Util.DateUtil
+import com.kumaydevelop.todoreminder.databinding.ActivityTaskEditBinding
 import io.realm.Realm
-import io.realm.kotlin.createObject
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_task_edit.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
@@ -62,23 +58,11 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         setContentView(R.layout.activity_task_edit)
         realm = Realm.getDefaultInstance()
 
+        val binding: ActivityTaskEditBinding = DataBindingUtil.setContentView(this, R.layout.activity_task_edit)
         val editViewModel = ViewModelProviders.of(this).get(EditViewModel::class.java)
+        binding.editViewModel = editViewModel
 
         initSpinner()
-
-        // (必須)のみ赤文字にする
-        val timelimitHtml = "タスク期限<font color=red>(必須)</font><br>入力欄をタップして設定してください"
-        timeLimit.setText(editViewModel.toSpanned(timelimitHtml))
-        val titleHtml = "タスク名<font color=red>(必須)</font>"
-        titleName.setText(editViewModel.toSpanned(titleHtml))
-
-        // カーソルを表示させず、年月日時の選択だけできるようにする
-        dateText.isEnabled = true
-        dateText.isCursorVisible = false
-        dateText.isFocusable = false
-        timeText.isEnabled = true
-        timeText.isCursorVisible = false
-        timeText.isFocusable = false
 
         var nextId : Long = 0L
 
@@ -86,13 +70,9 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         // タスク更新の場合
         if (taskId != null && taskId != -1L) {
             val task = editViewModel.getPresentTask(taskId, realm)
-            dateText.setText(android.text.format.DateFormat.format("yyyy/MM/dd", task?.date))
-            timeText.setText(android.text.format.DateFormat.format("HH:mm", task?.time))
-            titleEdit.setText(task?.title)
-            detailEdit.setText(task?.detail)
+            task?.let { editViewModel.setPresentTask(it) }
             val notifyCode = NotificationTime.values().filter { it.code == task?.notifyTime }.first()
             spinner.setSelection(notifyCode.code)
-            delete.visibility = View.VISIBLE
         } else {
             delete.visibility = View.INVISIBLE
         }
