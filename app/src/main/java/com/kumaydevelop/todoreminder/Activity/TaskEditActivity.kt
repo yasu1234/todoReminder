@@ -12,7 +12,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
-import com.kumaydevelop.todoreminder.ViewModel.EditViewModel
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
@@ -24,6 +23,7 @@ import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.Receiver.AlarmBroadCastReceiver
 import com.kumaydevelop.todoreminder.Util.CalenderUtil
 import com.kumaydevelop.todoreminder.Util.DateUtil
+import com.kumaydevelop.todoreminder.viewModel.EditViewModel
 import com.kumaydevelop.todoreminder.databinding.ActivityTaskEditBinding
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_task_edit.*

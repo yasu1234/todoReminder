@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="editViewModel"
-            type="com.kumaydevelop.todoreminder.ViewModel.EditViewModel" />
+            type="com.kumaydevelop.todoreminder.viewModel.EditViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -1,4 +1,4 @@
-package com.kumaydevelop.todoreminder.ViewModel
+package com.kumaydevelop.todoreminder.viewModel
 
 import android.os.Build
 import android.text.Html
@@ -8,7 +8,6 @@ import com.kumaydevelop.todoreminder.model.Task
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
-import com.kumaydevelop.todoreminder.NotificationTime
 
 class EditViewModel: ViewModel() {
 
