@@ -8,7 +8,7 @@ import android.view.MenuItem
 import com.kumaydevelop.todoreminder.Adapter.TaskAdapter
 import com.kumaydevelop.todoreminder.model.Task
 import com.kumaydevelop.todoreminder.R
-import com.kumaydevelop.todoreminder.ViewModel.ListViewModel
+import com.kumaydevelop.todoreminder.viewmodel.ListViewModel
 import com.kumaydevelop.todoreminder.databinding.ActivityMainBinding
 import io.realm.Realm
 import io.realm.kotlin.where
