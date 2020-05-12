@@ -16,6 +16,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import com.kumaydevelop.todoreminder.Fragment.DateFragment
 import com.kumaydevelop.todoreminder.Fragment.TimeFragment
 import com.kumaydevelop.todoreminder.model.Task
@@ -24,6 +26,8 @@ import com.kumaydevelop.todoreminder.R
 import com.kumaydevelop.todoreminder.Receiver.AlarmBroadCastReceiver
 import com.kumaydevelop.todoreminder.Util.CalenderUtil
 import com.kumaydevelop.todoreminder.Util.DateUtil
+import com.kumaydevelop.todoreminder.databinding.ActivityTaskEditBinding
+import com.kumaydevelop.todoreminder.viewmodel.EditViewModel
 import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -56,16 +60,13 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_task_edit)
+        val binding: ActivityTaskEditBinding = DataBindingUtil.setContentView(this,R.layout.activity_task_edit)
+        val editViewModel = ViewModelProviders.of(this).get(EditViewModel::class.java)
+        binding.viewModel = editViewModel
+
         realm = Realm.getDefaultInstance()
 
         initSpinner()
-
-        // (必須)のみ赤文字にする
-        val timelimitHtml = "タスク期限<font color=red>(必須)</font><br>入力欄をタップして設定してください"
-        timeLimit.setText(toSpanned(timelimitHtml))
-        val titleHtml = "タスク名<font color=red>(必須)</font>"
-        titleName.setText(toSpanned(titleHtml))
 
         // カーソルを表示させず、年月日時の選択だけできるようにする
         dateText.isEnabled = true
@@ -243,16 +244,6 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         val intent = Intent(this, AlarmBroadCastReceiver::class.java)
         val pending = PendingIntent.getBroadcast(this, taskId.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         alarm.cancel(pending)
-    }
-
-    // HTMLのタグを適用する
-    fun toSpanned(html: String) : Spanned {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
-        } else {
-            @Suppress("DEPRECATION")
-            return Html.fromHtml(html)
-        }
     }
 
     // spinner作成
