@@ -8,8 +8,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Html
-import android.text.Spanned
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -79,16 +77,12 @@ class TaskEditActivity : AppCompatActivity(), DateFragment.onDateSelectListnerIn
         var nextId : Long = 0L
 
         val taskId = intent?.getLongExtra("task_id", -1L)
-        // タスク更新の場合
         if (taskId != -1L) {
-            val task = realm.where<Task>().equalTo("id", taskId).findFirst()
-            dateText.setText(android.text.format.DateFormat.format("yyyy/MM/dd", task?.date))
-            timeText.setText(android.text.format.DateFormat.format("HH:mm", task?.time))
-            titleEdit.setText(task?.title)
-            detailEdit.setText(task?.detail)
-            val notifyCode = NotificationTime.values().filter { it.code == task?.notifyTime }.first()
+            // タスク更新の場合
+            val task = editViewModel.getPresentTask(taskId!!)
+            editViewModel.setPresentTask(task!!)
+            val notifyCode = NotificationTime.values().filter { it.code == task.notifyTime }.first()
             spinner.setSelection(notifyCode.code)
-            delete.visibility = View.VISIBLE
         } else {
             delete.visibility = View.INVISIBLE
         }
