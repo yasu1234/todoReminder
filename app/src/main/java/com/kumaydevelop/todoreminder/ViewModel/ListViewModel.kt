@@ -1,4 +1,4 @@
-package com.kumaydevelop.todoreminder.ViewModel
+package com.kumaydevelop.todoreminder.viewmodel
 
 import androidx.lifecycle.ViewModel
 import android.text.format.DateFormat
