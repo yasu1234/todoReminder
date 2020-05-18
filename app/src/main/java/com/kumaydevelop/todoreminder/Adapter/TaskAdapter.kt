@@ -34,6 +34,6 @@ class TaskAdapter(val context: Context, var listDatas: List<TaskDetail>) : BaseA
 
         binding!!.taskDetail = listDatas[position]
         // root化してviewを返す
-        return binding!!.root
+        return binding.root
     }
 }
