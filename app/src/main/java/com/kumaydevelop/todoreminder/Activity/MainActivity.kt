@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.kumaydevelop.todoreminder.Adapter.TaskAdapter
 import com.kumaydevelop.todoreminder.model.Task
 import com.kumaydevelop.todoreminder.R
@@ -17,24 +20,29 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.yesButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private lateinit var realm: Realm
+
+    lateinit var listAdapter: TaskAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         realm = Realm.getDefaultInstance()
-        val binding : ActivityMainBinding
 
         // MainActivityをDataBinding化する
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val listViewModel = ListViewModel()
-        // ViewModelでデータを取得するロジックを記載
-        val taskList = listViewModel.loadData()
-        val listAdapter = TaskAdapter(applicationContext, taskList)
-        binding.listview.adapter = listAdapter
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val listViewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+
+        binding.listViewModel = listViewModel
+
+        // ToDoデータを受け取り表示させる
+        listViewModel._listItems.observe(this, Observer {
+            listAdapter = TaskAdapter(this, it)
+            binding.listview.adapter = listAdapter
+        })
 
         // ⊕ボタンを押下したときの処理
         fab.setOnClickListener { view ->

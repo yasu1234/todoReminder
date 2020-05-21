@@ -6,6 +6,9 @@
         <variable
             name="onItemClick"
             type="android.widget.AdapterView.OnItemClickListener" />
+        <variable
+            name="listViewModel"
+            type="com.kumaydevelop.todoreminder.viewmodel.ListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
