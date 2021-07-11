@@ -6,6 +6,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+    flavorDimensions "enviroment"
     defaultConfig {
         applicationId "com.kumaydevelop.todoreminder"
         minSdkVersion 24
@@ -21,6 +22,17 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        development {
+            dimension "enviroment"
+            applicationIdSuffix ".development"
+        }
+
+        production {
+            dimension "enviroment"
         }
     }
 }
